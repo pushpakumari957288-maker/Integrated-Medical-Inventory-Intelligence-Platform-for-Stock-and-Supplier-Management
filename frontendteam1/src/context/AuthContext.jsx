@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCurrentUser } from "../services/authService";
 
 const AuthContext = createContext();
 
@@ -7,20 +8,77 @@ export function AuthProvider({ children }) {
     localStorage.getItem("token")
   );
 
-  const login = (newToken) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
+
+  // Verify the stored JWT when the application loads
+  useEffect(() => {
+    const verifyToken = async () => {
+      const storedToken = localStorage.getItem("token");
+
+      if (!storedToken) {
+        return;
+      }
+
+      try {
+        const currentUser = await getCurrentUser(storedToken);
+
+        // Keep the role from localStorage because /me currently
+        // returns only the email.
+        const storedUser = JSON.parse(
+          localStorage.getItem("user")
+        );
+
+        const userData = {
+          email: currentUser.email,
+          role: storedUser?.role || null,
+        };
+
+        localStorage.setItem("user", JSON.stringify(userData));
+        setUser(userData);
+      } catch (error) {
+        console.error("Token verification failed:", error);
+
+        // JWT is invalid/expired, so log the user out
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        setToken(null);
+        setUser(null);
+      }
+    };
+
+    verifyToken();
+  }, []);
+
+  const login = (loginData) => {
+    localStorage.setItem("token", loginData.token);
+
+    const userData = {
+      email: loginData.email,
+      role: loginData.role,
+    };
+
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    setToken(loginData.token);
+    setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
     setToken(null);
+    setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         token,
+        user,
         login,
         logout,
         isAuthenticated: !!token,
