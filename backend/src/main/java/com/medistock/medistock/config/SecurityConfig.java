@@ -1,4 +1,4 @@
-package com.medistock.medistock.config;
+package com.medistock.medistock.Config;
 
 import com.medistock.medistock.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +19,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(
-            JwtAuthenticationFilter jwtFilter
+            JwtAuthenticationFilter jwtAuthenticationFilter
     ) {
-        this.jwtFilter = jwtFilter;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -36,7 +36,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
     ) throws Exception {
-
         return configuration.getAuthenticationManager();
     }
 
@@ -45,8 +44,8 @@ public class SecurityConfig {
             HttpSecurity http
     ) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
+
 
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
@@ -56,28 +55,28 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers(
-                                "/api/auth/**"
-                        ).permitAll()
 
-                        .requestMatchers(
-                                "/api/admin/**"
-                        ).hasRole("ADMIN")
+                        .requestMatchers("/api/auth/**")
+                        .permitAll()
 
-                        .requestMatchers(
-                                "/api/pharmacist/**"
-                        ).hasRole("PHARMACIST")
+                        .requestMatchers("/api/admin/**")
+                        .hasRole("ADMIN")
 
-                        .requestMatchers(
-                                "/api/staff/**"
-                        ).hasRole("STAFF")
 
+                        .requestMatchers("/api/pharmacist/**")
+                        .hasRole("PHARMACIST")
+
+                        // Staff APIs
+                        .requestMatchers("/api/staff/**")
+                        .hasRole("STAFF")
+
+                        // Everything else requires authentication
                         .anyRequest()
                         .authenticated()
                 )
 
                 .addFilterBefore(
-                        jwtFilter,
+                        jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 );
 
