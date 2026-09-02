@@ -1,74 +1,57 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import ProtectedRoute from "../components/ProtectedRoutes";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 import AdminDashboard from "../pages/AdminDashboard";
 import PharmacistDashboard from "../pages/PharmacistDashboard";
 import StaffDashboard from "../pages/StaffDashboard";
 import Unauthorized from "../pages/Unauthorized";
 
-const Login = () => {
-
-    const { login } = useAuth();
-    const navigate = useNavigate();
-
-    const handleLogin = (role) => {
-
-        const userData = {
-            userId: 1,
-            name: "Test User",
-            email: "test@medistock.com",
-            role: role,
-            token: "temporary-token"
-        };
-
-        login(userData);
-
-        if (role === "ADMIN") {
-            navigate("/admin");
-        }
-
-        if (role === "PHARMACIST") {
-            navigate("/pharmacist");
-        }
-
-        if (role === "STAFF") {
-            navigate("/staff");
-        }
-    };
-
-    return (
-        <div>
-
-            <h1>Temporary Login</h1>
-
-            <button onClick={() => handleLogin("ADMIN")}>
-                Login as Admin
-            </button>
-
-            <button onClick={() => handleLogin("PHARMACIST")}>
-                Login as Pharmacist
-            </button>
-
-            <button onClick={() => handleLogin("STAFF")}>
-                Login as Staff
-            </button>
-
-        </div>
-    );
+// Helper component to redirect logged in users away from login/register pages
+const PublicOnlyRoute = ({ children }) => {
+    const { user } = useAuth();
+    if (user) {
+        const role = (user.role || "").toUpperCase();
+        if (role === "ADMIN") return <Navigate to="/admin" replace />;
+        if (role === "PHARMACIST") return <Navigate to="/pharmacist" replace />;
+        return <Navigate to="/staff" replace />;
+    }
+    return children;
 };
 
-const Register = () => {
-    return <h1>Register Page</h1>;
+// Root route dispatcher based on auth status
+const HomeRedirect = () => {
+    const { user } = useAuth();
+    if (!user) return <Navigate to="/login" replace />;
+    const role = (user.role || "").toUpperCase();
+    if (role === "ADMIN") return <Navigate to="/admin" replace />;
+    if (role === "PHARMACIST") return <Navigate to="/pharmacist" replace />;
+    return <Navigate to="/staff" replace />;
 };
 
 const AppRoutes = () => {
-
     return (
         <Routes>
+            <Route path="/" element={<HomeRedirect />} />
 
-            <Route path="/login" element={<Login />} />
+            <Route
+                path="/login"
+                element={
+                    <PublicOnlyRoute>
+                        <Login />
+                    </PublicOnlyRoute>
+                }
+            />
 
-            <Route path="/register" element={<Register />} />
+            <Route
+                path="/register"
+                element={
+                    <PublicOnlyRoute>
+                        <Register />
+                    </PublicOnlyRoute>
+                }
+            />
 
             <Route
                 path="/admin"
@@ -91,7 +74,7 @@ const AppRoutes = () => {
             <Route
                 path="/staff"
                 element={
-                    <ProtectedRoute allowedRoles={["STAFF"]}>
+                    <ProtectedRoute allowedRoles={["STAFF", "USER"]}>
                         <StaffDashboard />
                     </ProtectedRoute>
                 }
@@ -102,6 +85,7 @@ const AppRoutes = () => {
                 element={<Unauthorized />}
             />
 
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
 };
