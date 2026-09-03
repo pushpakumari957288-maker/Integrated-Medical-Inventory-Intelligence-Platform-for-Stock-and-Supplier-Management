@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Shield, Eye, EyeOff, Activity, ShieldCheck, AlertCircle, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, Shield, Eye, EyeOff, Activity, ShieldCheck, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
 import authService from '../services/authService';
 
 const ROLES = [

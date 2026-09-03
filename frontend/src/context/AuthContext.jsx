@@ -1,20 +1,28 @@
 import { createContext, useState } from "react";
-import authService from "../services/authService";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(() => {
-        return authService.getCurrentUser();
+        const storedUser = localStorage.getItem("user");
+
+        return storedUser
+            ? JSON.parse(storedUser)
+            : null;
     });
 
     const login = (userData) => {
+        localStorage.setItem(
+            "user",
+            JSON.stringify(userData)
+        );
+
         setUser(userData);
     };
 
     const logout = () => {
-        authService.logout();
+        localStorage.removeItem("user");
         setUser(null);
     };
 

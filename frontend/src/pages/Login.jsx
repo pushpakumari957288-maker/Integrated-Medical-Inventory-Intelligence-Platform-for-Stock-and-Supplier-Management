@@ -7,7 +7,7 @@ import { useAuth } from '../context/useAuth';
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { login: authLogin } = useAuth();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -71,27 +71,27 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const userData = await authService.login({
+      const response = await authService.login({
         email: formData.email.trim(),
         password: formData.password,
       });
 
-      // Update AuthContext state
-      authLogin(userData);
-
+      // Store the authenticated user returned by Spring Boot.
+      // The response contains: token, userId, name, email, and role.
+      login(response);
       setApiSuccess('Login successful! Redirecting...');
 
-      // Redirect based on user role
-      setTimeout(() => {
-        const userRole = (userData?.role || '').toUpperCase();
-        if (userRole === 'ADMIN') {
-          navigate('/admin');
-        } else if (userRole === 'PHARMACIST') {
-          navigate('/pharmacist');
-        } else {
-          navigate('/staff');
-        }
-      }, 700);
+      const role = response?.role?.toUpperCase();
+
+      if (role === 'ADMIN') {
+        navigate('/admin', { replace: true });
+      } else if (role === 'PHARMACIST') {
+        navigate('/pharmacist', { replace: true });
+      } else if (role === 'STAFF') {
+        navigate('/staff', { replace: true });
+      } else {
+        navigate('/unauthorized', { replace: true });
+      }
     } catch (err) {
       const message = authService.handleError(err);
       setApiError(message);
