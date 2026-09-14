@@ -1,0 +1,210 @@
+.supplier-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: #f5eadf;
+  font-family: Arial, sans-serif;
+}
+
+.supplier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.supplier-header h1 {
+  margin: 0;
+  color: #4b1768;
+}
+
+.supplier-header p {
+  color: #777;
+}
+
+.add-supplier-button {
+  background: #6a0dad;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-supplier-button:hover {
+  background: #8a2be2;
+}
+
+.supplier-form-card,
+.supplier-table-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 25px rgba(106, 13, 173, 0.12);
+}
+
+.supplier-form-card h2,
+.supplier-table-card h2 {
+  color: #6a0dad;
+  margin-top: 0;
+}
+
+.supplier-form-card form {
+  display: grid;
+  gap: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #4b1768;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d8c2e6;
+  border-radius: 8px;
+  background: #eeeaf154;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #8a2be2;
+  box-shadow: 0 0 0 3px #b675e6;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-button,
+.cancel-button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-button {
+  background: #6a0dad;
+  color: white;
+}
+
+.save-button:hover {
+  background: #8a2be2;
+}
+
+.cancel-button {
+  background: #d8c2e6;
+  color: #4b1768;
+}
+
+.cancel-button:hover {
+  background: #c9a8e0;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #eee0f8;
+  color: #4b1768;
+  padding: 14px;
+  text-align: left;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.edit-button {
+  background: #d8c2e6;
+  color: #4b1768;
+}
+
+.delete-button {
+  background: #fcebed;
+  color: #b00020;
+}
+
+.edit-button:hover {
+  background: #c9a8e0;
+}
+
+.delete-button:hover {
+  background: #f5d4da;
+}
+
+.empty-message {
+  color: #473131;
+}
+
+/* Center supplier page content */
+.supplier-page {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
+.supplier-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.supplier-header h1 {
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.supplier-header p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Center Add Supplier form */
+.supplier-form-card {
+  width: 100%;
+  margin: 0 auto 25px auto;
+}
+/* Make input text clearly visible */
+.supplier-form-card input {
+  color: #222222;
+  background-color: #ffffff;
+  border: 1px solid #d8c7e8;
+}
+
+.supplier-form-card input::placeholder {
+  color: #777777;
+  opacity: 1;
+}
+
+.supplier-form-card input:focus {
+  color: #222222;
+  background-color: #ffffff;
+  outline: none;
+  border: 2px solid #7b1fc5;
+}
