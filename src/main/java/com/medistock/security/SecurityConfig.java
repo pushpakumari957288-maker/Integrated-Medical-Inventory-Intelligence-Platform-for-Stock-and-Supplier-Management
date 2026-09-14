@@ -1,55 +1,3 @@
-/*package com.medistock.security;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-@Configuration
-public class SecurityConfig {
-
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http
-                .csrf(csrf -> csrf.disable())
-
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/",
-                                "/api/auth/register",
-                                "/api/auth/login"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-
-                .addFilterBefore(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
-
-        return http.build();
-    }
-}*/
 package com.medistock.security;
 
 import org.springframework.context.annotation.Bean;
@@ -94,13 +42,62 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // Public authentication endpoints
                         .requestMatchers(
                                 "/",
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/error"
                         ).permitAll()
+
+                        // Any authenticated user
+                        .requestMatchers("/api/auth/me")
+                        .authenticated()
+
+                        // Medicine
+                        .requestMatchers(HttpMethod.GET, "/api/medicines/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
+
+                        .requestMatchers(HttpMethod.POST, "/api/medicines")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/medicines/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/medicines/**")
+                        .hasRole("ADMIN")
+
+                        // Supplier
+                        .requestMatchers(HttpMethod.GET, "/api/suppliers/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
+
+                        .requestMatchers(HttpMethod.POST, "/api/suppliers")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/suppliers/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/suppliers/**")
+                        .hasRole("ADMIN")
+
+                        // Inventory
+                        .requestMatchers(HttpMethod.GET, "/api/inventory/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
+
+                        .requestMatchers(HttpMethod.POST, "/api/inventory")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/inventory/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/inventory/**")
+                        .hasRole("ADMIN")
+
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
 
