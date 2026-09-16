@@ -48,7 +48,7 @@ function Register() {
     <div className="register-page">
       <div className="register-card">
 
-        <div className="logo-circle">M</div>
+        <div className="logo-circle">Ⓜ️</div>
 
         <h1>Create Account</h1>
         <p className="subtitle">Join MediStock today</p>
