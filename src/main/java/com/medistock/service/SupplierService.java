@@ -25,17 +25,26 @@ public class SupplierService {
 
     public Supplier getSupplierById(Integer id) {
         return supplierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Supplier not found with id: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Supplier not found with id: " + id));
     }
 
     public Supplier updateSupplier(Integer id, Supplier supplierDetails) {
+
         Supplier supplier = getSupplierById(id);
-        supplier.setSupplierName(supplierDetails.getSupplierName());
+
+        supplier.setName(supplierDetails.getName());
+        supplier.setEmail(supplierDetails.getEmail());
+        supplier.setPhone(supplierDetails.getPhone());
+        supplier.setAddress(supplierDetails.getAddress());
+
         return supplierRepository.save(supplier);
     }
 
     public void deleteSupplier(Integer id) {
+
         Supplier supplier = getSupplierById(id);
+
         supplierRepository.delete(supplier);
     }
 }
