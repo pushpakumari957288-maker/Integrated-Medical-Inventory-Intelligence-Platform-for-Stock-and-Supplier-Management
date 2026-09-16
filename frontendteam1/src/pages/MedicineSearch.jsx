@@ -47,13 +47,13 @@ function MedicineSearch() {
     ),
   ];
 
-  const suppliers = [
-    ...new Set(
-      medicines
-        .map((medicine) => medicine.supplier?.supplierName)
-        .filter(Boolean)
-    ),
-  ];
+ const suppliers = [
+  ...new Set(
+    medicines
+      .map((medicine) => medicine.supplier?.name)
+      .filter(Boolean)
+  ),
+];
 
   const handleSearch = () => {
     setSearch(searchInput);
@@ -70,8 +70,9 @@ function MedicineSearch() {
       !category || medicine.category === category;
 
     const matchesSupplier =
-      !supplier ||
-      medicine.supplier?.supplierName === supplier;
+  !supplier ||
+  medicine.supplier?.name?.trim().toLowerCase() ===
+    supplier.trim().toLowerCase();
 
     return (
       matchesSearch &&
@@ -180,7 +181,7 @@ function MedicineSearch() {
                     <td>{medicine.category}</td>
 
                     <td>
-                      {medicine.supplier?.supplierName || "N/A"}
+                      {medicine.supplier?.name || "N/A"}
                     </td>
 
                     <td>
