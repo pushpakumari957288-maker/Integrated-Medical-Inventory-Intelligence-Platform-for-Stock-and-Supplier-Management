@@ -1,0 +1,213 @@
+.medicine-search-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: #f5eadf;
+  font-family: Arial, sans-serif;
+}
+
+.medicine-header {
+  margin-bottom: 25px;
+}
+
+.medicine-header h1 {
+  margin: 0;
+  color: #4b1768;
+}
+
+
+.medicine-header p {
+  color: #777;
+}
+
+.filter-card {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 25px rgba(106, 13, 173, 0.12);
+}
+
+.filter-card input,
+.filter-card select {
+  padding: 12px;
+  border: 1px solid #d8c2e6;
+  border-radius: 8px;
+  background: #eeeaf1;
+  color: #3b205c;
+  font-size: 15px;
+}
+
+.filter-card input {
+  flex: 1;
+  min-width: 240px;
+}
+
+.filter-card select {
+  min-width: 180px;
+}
+
+.filter-card input:focus,
+.filter-card select:focus {
+  outline: none;
+  border-color: #8a2be2;
+  box-shadow: 0 0 0 3px #eee0f8;
+}
+
+.status-message {
+  color: #6a0dad;
+}
+
+.error-message {
+  color: #b00020;
+  background: #fcebed;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.medicine-table-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(106, 13, 173, 0.12);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 14px;
+  text-align: left;
+  background: #eee0f8;
+  color: #4b1768;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.stock-available {
+  color: #4b1768;
+  background: #eee0f8;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.stock-empty {
+  color: #b00020;
+  background: #fcebed;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.no-results {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+}
+.filter-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 25px rgba(106, 13, 173, 0.12);
+}
+
+.filter-card input,
+.filter-card select {
+  height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #d8c2e6;
+  border-radius: 8px;
+  background: #eeeaf1;
+  color: #3b205c;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.search-box {
+  display: contents;
+}
+
+.filter-card input {
+  flex: 1;
+  min-width: 240px;
+}
+
+.filter-card select {
+  width: 180px;
+  cursor: pointer;
+}
+
+.search-button {
+  height: 44px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #6a0dad;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  background: #8a2be2;
+}
+/* Center medicine search page */
+.medicine-search-page {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Center heading */
+.medicine-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.medicine-header h1 {
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.medicine-header p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Center filter section */
+.filter-card {
+  width: 100%;
+  margin: 0 auto 25px auto;
+}
+
+/* Make typed text visible */
+.filter-card input,
+.filter-card select {
+  color: #222222;
+  background-color: #ffffff;
+}
+
+.filter-card input::placeholder {
+  color: #777777;
+  opacity: 1;
+}
+
+/* Medicine table */
+.medicine-table-card {
+  width: 100%;
+  margin: 0 auto;
+}

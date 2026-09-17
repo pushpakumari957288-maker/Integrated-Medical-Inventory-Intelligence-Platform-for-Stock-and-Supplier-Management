@@ -16,7 +16,7 @@ function Dashboard() {
 
       <nav className="dashboard-navbar">
         <div className="brand">
-          <div className="small-logo">M</div>
+          <div className="small-logo">Ⓜ️</div>
           <span>MediStock</span>
         </div>
 
@@ -35,7 +35,7 @@ function Dashboard() {
 
           <h1>
             Welcome{user?.name ? `, ${user.name}` : ""}! 👋
-          </h1>
+           </h1>
 
           <p>
             Welcome to your MediStock dashboard.
@@ -45,12 +45,12 @@ function Dashboard() {
           {user && (
             <div className="user-info">
               <div>
-                <span>Email</span>
+                <span>Email: </span>
                 <strong>{user.email}</strong>
               </div>
 
               <div>
-                <span>Role</span>
+                <span>Role: </span>
                 <strong>{user.role}</strong>
               </div>
             </div>
@@ -73,11 +73,22 @@ function Dashboard() {
             <p>Track your medicine stock.</p>
           </div>
 
-          <div className="dashboard-card">
-            <div className="card-icon">🚚</div>
-            <h3>Suppliers</h3>
-            <p>Manage your suppliers.</p>
-          </div>
+<div
+  className="dashboard-card clickable-card"
+  onClick={() => navigate("/suppliers")}
+>
+  <div className="card-icon">🚚</div>
+  <h3>Suppliers</h3>
+  <p>Manage your medicine suppliers.</p>
+</div>
+<div
+  className="dashboard-card clickable-card"
+  onClick={() => navigate("/medicine-search")}
+>
+   <div className="card-icon">🔍</div>
+  <h3>Medicine Search</h3>
+  <p>Search and filter medicines.</p>
+</div>
 
         </section>
 

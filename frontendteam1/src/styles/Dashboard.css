@@ -72,3 +72,21 @@
 .dashboard-card p {
     color: #555;
 }
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.clickable-card:hover {
+  transform: translateY(-4px);
+  border-top-color: #6a0dad;
+}
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clickable-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(106, 13, 173, 0.2);
+}

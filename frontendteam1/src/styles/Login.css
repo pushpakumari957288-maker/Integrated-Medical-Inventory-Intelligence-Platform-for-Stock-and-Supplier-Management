@@ -9,7 +9,7 @@
   align-items: center;
   background: #f5eadf;
   font-family: Arial, sans-serif;
-  padding: 20px;
+  padding: 30px 20px;
 }
 
 .login-card {
@@ -39,6 +39,7 @@
   color: #6a0dad;
   margin: 0;
   font-size: 30px;
+  line-height: 1.1;
 }
 
 .subtitle {
@@ -61,25 +62,31 @@
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 13px;
-  border: 1px solid #d8c2e6;
-  border-radius: 9px;
+  padding: 13px 14px;
+  border: 2px solid #d8b4f8;
+  border-radius: 10px;
   font-size: 15px;
-  background: #ffffff;
+  background: #faf5ff;
+  color: #3f2452;
+}
+
+.form-group input::placeholder {
+  color: #8b7d91;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
   border-color: #8a2be2;
-  box-shadow: 0 0 0 3px #eee0f8;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.12);
 }
 
 .primary-button {
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 9px;
+  border-radius: 10px;
   background: #6a0dad;
   color: #ffffff;
   font-size: 16px;

@@ -42,13 +42,62 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // Public authentication endpoints
                         .requestMatchers(
                                 "/",
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/error"
                         ).permitAll()
+
+                        // Any authenticated user
+                        .requestMatchers("/api/auth/me")
+                        .authenticated()
+
+                        // Medicine
+                        .requestMatchers(HttpMethod.GET, "/api/medicines/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
+
+                        .requestMatchers(HttpMethod.POST, "/api/medicines")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/medicines/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/medicines/**")
+                        .hasRole("ADMIN")
+
+                        // Supplier
+                        .requestMatchers(HttpMethod.GET, "/api/suppliers/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
+
+                        .requestMatchers(HttpMethod.POST, "/api/suppliers")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/suppliers/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/suppliers/**")
+                        .hasRole("ADMIN")
+
+                        // Inventory
+                        .requestMatchers(HttpMethod.GET, "/api/inventory/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST", "STAFF")
+
+                        .requestMatchers(HttpMethod.POST, "/api/inventory")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/inventory/**")
+                        .hasAnyRole("ADMIN", "PHARMACIST")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/inventory/**")
+                        .hasRole("ADMIN")
+
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
 

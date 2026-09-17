@@ -38,7 +38,7 @@ function Login() {
     <div className="login-page">
       <div className="login-card">
 
-        <div className="logo-circle">M</div>
+        <div className="logo-circle">Ⓜ️</div>
 
         <h1>MediStock</h1>
         <p className="subtitle">Welcome back! Please login to continue.</p>
