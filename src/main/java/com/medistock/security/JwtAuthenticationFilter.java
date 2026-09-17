@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 email = jwtUtil.extractUsername(token);
             } catch (Exception e) {
-                // Invalid token
+                System.out.println("JWT ERROR: " + e.getMessage());
             }
         }
 
@@ -54,6 +54,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 && jwtUtil.validateToken(token)) {
 
             String role = jwtUtil.extractRole(token);
+            if (role != null) {
+                role = role.toUpperCase();
+            }
+
 
             List<GrantedAuthority> authorities = role != null
                     ? List.of(new SimpleGrantedAuthority("ROLE_" + role))
