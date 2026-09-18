@@ -61,7 +61,10 @@ function Dashboard() {
 
         <section className="dashboard-cards">
 
-          <div className="dashboard-card">
+         <div
+  className="dashboard-card clickable-card"
+  onClick={() => navigate("/medicines")}
+>
             <div className="card-icon">💊</div>
             <h3>Medicines</h3>
             <p>Manage and view medicines.</p>
