@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import MedicineSearch from "./pages/MedicineSearch";
+import Medicines from "./pages/Medicines";
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
         <Route path="/medicine-search" element={<MedicineSearch />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/suppliers" element={<Suppliers />} />
+        <Route path="/medicines" element={<Medicines />} />
       </Routes>
     </BrowserRouter>
   );
