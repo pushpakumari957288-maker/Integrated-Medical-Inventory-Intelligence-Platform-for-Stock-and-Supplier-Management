@@ -13,12 +13,15 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final MedicineRepository medicineRepository;
+    private final StockLogService stockLogService;
 
     public InventoryService(
             InventoryRepository inventoryRepository,
-            MedicineRepository medicineRepository) {
+            MedicineRepository medicineRepository,
+            StockLogService stockLogService) {
         this.inventoryRepository = inventoryRepository;
         this.medicineRepository = medicineRepository;
+        this.stockLogService = stockLogService;
     }
 
     // Add stock
@@ -30,7 +33,8 @@ public class InventoryService {
 
         Medicine medicine = medicineRepository.findById(medicineId)
                 .orElseThrow(() ->
-                        new RuntimeException("Medicine not found with id: " + medicineId));
+                        new RuntimeException(
+                                "Medicine not found with id: " + medicineId));
 
         Inventory inventory = inventoryRepository.findByMedicine(medicine)
                 .orElse(null);
@@ -40,11 +44,23 @@ public class InventoryService {
             inventory.setMedicine(medicine);
             inventory.setQuantity(quantity);
         } else {
-            inventory.setQuantity(inventory.getQuantity() + quantity);
+            inventory.setQuantity(
+                    inventory.getQuantity() + quantity
+            );
         }
 
-        medicine.setQuantity(medicine.getQuantity() + quantity);
+        medicine.setQuantity(
+                medicine.getQuantity() + quantity
+        );
+
         medicineRepository.save(medicine);
+
+        // Create stock log for added quantity
+        stockLogService.createLog(
+                medicineId,
+                "ADD",
+                quantity
+        );
 
         return inventoryRepository.save(inventory);
     }
@@ -53,21 +69,49 @@ public class InventoryService {
     public Inventory updateStock(Integer medicineId, Integer quantity) {
 
         if (quantity == null || quantity < 0) {
-            throw new RuntimeException("Stock quantity cannot be negative");
+            throw new RuntimeException(
+                    "Stock quantity cannot be negative");
         }
 
         Medicine medicine = medicineRepository.findById(medicineId)
                 .orElseThrow(() ->
-                        new RuntimeException("Medicine not found with id: " + medicineId));
+                        new RuntimeException(
+                                "Medicine not found with id: " + medicineId));
 
         Inventory inventory = inventoryRepository.findByMedicine(medicine)
                 .orElseThrow(() ->
-                        new RuntimeException("Inventory not found for medicine id: " + medicineId));
+                        new RuntimeException(
+                                "Inventory not found for medicine id: "
+                                        + medicineId));
+
+        int previousQuantity = inventory.getQuantity();
 
         inventory.setQuantity(quantity);
 
         medicine.setQuantity(quantity);
         medicineRepository.save(medicine);
+
+        // Calculate how much the stock changed
+        int quantityChanged = quantity - previousQuantity;
+
+        String actionType;
+
+        if (quantityChanged > 0) {
+            actionType = "ADD";
+        } else if (quantityChanged < 0) {
+            actionType = "REDUCE";
+        } else {
+            actionType = "UPDATE";
+        }
+
+        // Create log only when stock actually changes
+        if (quantityChanged != 0) {
+            stockLogService.createLog(
+                    medicineId,
+                    actionType,
+                    quantityChanged
+            );
+        }
 
         return inventoryRepository.save(inventory);
     }
@@ -82,10 +126,14 @@ public class InventoryService {
 
         Medicine medicine = medicineRepository.findById(medicineId)
                 .orElseThrow(() ->
-                        new RuntimeException("Medicine not found with id: " + medicineId));
+                        new RuntimeException(
+                                "Medicine not found for medicine id: "
+                                        + medicineId));
 
         return inventoryRepository.findByMedicine(medicine)
                 .orElseThrow(() ->
-                        new RuntimeException("Inventory not found for medicine id: " + medicineId));
+                        new RuntimeException(
+                                "Inventory not found for medicine id: "
+                                        + medicineId));
     }
 }
