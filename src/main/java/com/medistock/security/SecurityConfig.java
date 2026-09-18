@@ -54,6 +54,7 @@ public class SecurityConfig {
                                 "/error"
                         ).permitAll()
 
+
                         // Any authenticated user
                         .requestMatchers("/api/auth/me")
                         .authenticated()

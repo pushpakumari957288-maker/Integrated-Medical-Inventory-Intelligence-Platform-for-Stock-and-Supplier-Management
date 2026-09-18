@@ -35,7 +35,7 @@ function Dashboard() {
 
           <h1>
             Welcome{user?.name ? `, ${user.name}` : ""}! 👋
-          </h1>
+           </h1>
 
           <p>
             Welcome to your MediStock dashboard.
@@ -45,12 +45,12 @@ function Dashboard() {
           {user && (
             <div className="user-info">
               <div>
-                <span>Email</span>
+                <span>Email: </span>
                 <strong>{user.email}</strong>
               </div>
 
               <div>
-                <span>Role</span>
+                <span>Role: </span>
                 <strong>{user.role}</strong>
               </div>
             </div>

@@ -27,12 +27,14 @@ function Suppliers() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const canEdit =
-    user?.role === "Admin" ||
-    user?.role === "Pharmacist";
+ const role = user?.role?.toUpperCase();
 
-  const canDelete =
-    user?.role === "Admin";
+const canEdit =
+  role === "ADMIN" ||
+  role === "PHARMACIST";
+
+const canDelete =
+  role === "ADMIN";
 
   useEffect(() => {
     loadSuppliers();
